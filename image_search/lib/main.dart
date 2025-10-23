@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,14 +15,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ImgSrch(title: 'Final image search'),
+      home: const ImgSrch(title: 'Final image search'),
     );
   }
 }
 
 class ImgSrch extends StatefulWidget {
   final String title;
-  ImgSrch({Key key, this.title}) : super(key: key);
+  const ImgSrch({super.key, required this.title});
 
   @override
   _ImgSrchState createState() => _ImgSrchState();
@@ -54,7 +56,7 @@ class _ImgSrchState extends State<ImgSrch> {
     d.add('https://floristxpress.com/blog/wp-content/uploads/2016/09/calla-lily-flower-season-300x199.jpg');
     d.add('https://floristxpress.com/blog/wp-content/uploads/2016/09/Water-Lily-flowers-33698264-1024-768-300x225.jpg');
 
-  print("Value of d=: "+d.toString());
+  print("Value of d=: ${d.toString()}");
     return d;
   }
 
@@ -62,26 +64,25 @@ class _ImgSrchState extends State<ImgSrch> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ImageSearch'),
+        title: const Text('ImageSearch'),
       ),
       body: FutureBuilder(
             future: _printText(),
             builder: (BuildContext context, AsyncSnapshot snap) {
               if (snap.data == null) {
                 if (snap.error != null) {
-                  print("error======> " + snap.error.toString());
+                  print("error======> ${snap.error.toString()}");
                 }
-                return Container(
-                  alignment: Alignment.center,
+                return const Center(
                   child: Text('Loading....'),
                 );
               } else {
-                new ListView.builder(
+                return ListView.builder(
                   itemCount: snap.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return new Card(
-                      child: new Image(
-                        image: new AssetImage(snap.data[index]),
+                    return Card(
+                      child: Image.network(
+                        snap.data[index],
                         fit: BoxFit.contain,
                         alignment: Alignment.center,
                       ),
@@ -93,7 +94,7 @@ class _ImgSrchState extends State<ImgSrch> {
           ),
       floatingActionButton: FloatingActionButton(
         onPressed: _printText, 
-        child: Icon(Icons.search),
+        child: const Icon(Icons.search),
       ),
       // Column(
       //   children: <Widget>[
